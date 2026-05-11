@@ -79,17 +79,52 @@ body { margin:0; font-family: Arial, sans-serif; background:#f5f5f5; }
   </div>
 </div>
 
-<script>
-let currentTime = '';
-function book(time){
-  currentTime = time;
-  document.getElementById('modal').style.display = 'flex';
-  document.getElementById('selectedTime').innerText = '預約時間：' + time;
-}
-function confirmBooking(){
-  alert('預約成功：' + currentTime);
-  document.getElementById('modal').style.display = 'none';
-}
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "你的-apiKey",
+    authDomain: "你的-authDomain",
+    projectId: "你的-projectId",
+    storageBucket: "你的-storageBucket",
+    messagingSenderId: "你的-messagingSenderId",
+    appId: "你的-appId"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  let currentTime = '';
+
+  window.book = function(time) {
+    currentTime = time;
+    document.getElementById('modal').style.display = 'flex';
+    document.getElementById('selectedTime').innerText = '預約時間：' + time;
+  };
+
+  window.confirmBooking = async function() {
+    const nameInput = document.querySelector('#modal input');
+    const name = nameInput.value.trim();
+
+    if (!name) {
+      alert('請輸入姓名');
+      return;
+    }
+
+    await addDoc(collection(db, "appointments"), {
+      clinicName: "微笑牙醫診所",
+      doctorName: "張醫師",
+      appointmentTime: currentTime,
+      customerName: name,
+      status: "已預約",
+      createdAt: serverTimestamp()
+    });
+
+    alert('預約成功，資料已存入 Firebase');
+    document.getElementById('modal').style.display = 'none';
+    nameInput.value = '';
+  };
 </script>
 
 </body>
