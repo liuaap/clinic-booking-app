@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>診所預約</title>
+<style>
+body { margin:0; font-family: Arial, sans-serif; background:#f5f5f5; }
+.container { max-width:420px; margin:auto; background:white; min-height:100vh; padding-bottom:70px; }
+.header { padding:12px; display:flex; justify-content:space-between; }
+.search { padding:10px; }
+.search input { width:100%; padding:10px; border-radius:10px; border:1px solid #ccc; }
+.categories { display:flex; overflow-x:auto; padding:10px; gap:8px; }
+.cat { padding:8px 12px; background:#eee; border-radius:20px; }
+.card { background:white; margin:10px; padding:10px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+.times { display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+.time { padding:6px 10px; background:#e0f0ff; border-radius:8px; cursor:pointer; }
+.time:hover { background:#007bff; color:white; }
+.footer { position:fixed; bottom:0; width:100%; max-width:420px; display:flex; justify-content:space-around; background:white; border-top:1px solid #ddd; padding:10px 0; }
+.modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:none; justify-content:center; align-items:center; }
+.modal-content { background:white; padding:20px; border-radius:12px; width:80%; }
+.btn { margin-top:10px; padding:10px; width:100%; border:none; border-radius:8px; background:#007bff; color:white; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+<span>📍 台中市 西屯區</span>
+<span>🔔</span>
+</div>
+
+<div class="search">
+<input type="text" placeholder="搜尋診所 / 醫師 / 科別">
+</div>
+
+<div class="categories">
+<div class="cat">牙醫</div>
+<div class="cat">內科</div>
+<div class="cat">皮膚科</div>
+<div class="cat">眼科</div>
+</div>
+
+<div class="card">
+<div><b>微笑牙醫診所</b></div>
+<div>⭐4.8 ・ 300m</div>
+<div>張醫師</div>
+<div class="times">
+<div class="time" onclick="book('14:30')">14:30</div>
+<div class="time" onclick="book('15:00')">15:00</div>
+<div class="time" onclick="book('15:30')">15:30</div>
+</div>
+</div>
+
+<div class="card">
+<div><b>健康內科診所</b></div>
+<div>⭐4.5 ・ 500m</div>
+<div>李醫師</div>
+<div class="times">
+<div class="time" onclick="book('16:00')">16:00</div>
+<div class="time" onclick="book('16:30')">16:30</div>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+<div>首頁</div>
+<div>預約</div>
+<div>我的</div>
+</div>
+
+<!-- 預約彈窗 -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div id="selectedTime"></div>
+    <input type="text" placeholder="您的姓名" style="width:100%; padding:8px; margin-top:10px;">
+    <button class="btn" onclick="confirmBooking()">確認預約</button>
+  </div>
+</div>
+
+<script>
+let currentTime = '';
+function book(time){
+  currentTime = time;
+  document.getElementById('modal').style.display = 'flex';
+  document.getElementById('selectedTime').innerText = '預約時間：' + time;
+}
+function confirmBooking(){
+  alert('預約成功：' + currentTime);
+  document.getElementById('modal').style.display = 'none';
+}
+</script>
+
+</body>
+</html>
